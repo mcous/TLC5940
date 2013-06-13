@@ -5,5 +5,5 @@ AVR library for the TI TLC5940 16 led driver. current code based on [TI's TLC594
 include the files and update your makefile accordingly
 
 ## todo
-modify constructor to take in pin assignments for better cross-project usability
-refactor code to use hardware spi
+* modify constructor to take in pin assignments for better cross-project usability
+* refactor code to use hardware spi
