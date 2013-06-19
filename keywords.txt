@@ -1,0 +1,10 @@
+# keywords.txt for arduino ide highlighting
+
+# KEYWORD1 - classes, datatypes, and c++ keywords
+TLC5940    KEYWORD1
+
+# KEYWORD2 - methods and functions
+init       KEYWORD2
+setDC      KEYWORD2
+setGS      KEYWORD2
+refreshGS  KEYWORD2
