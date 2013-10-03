@@ -6,36 +6,36 @@
 #include <avr/io.h>
 
 // communication pins - set appropriately
-// greyscale clock - B0 - D3
-#define DDR_GSCLK  DDRB
-#define PORT_GSCLK PORTB
-#define GSCLK_PIN  0
-// serial clock - B5
-#define DDR_SCLK  DDRB
-#define PORT_SCLK PORTB
-#define SCLK_PIN  5
-// dc programming select - D4
-#define DDR_DCPRG  DDRD
-#define PORT_DCPRG PORTD
-#define DCPRG_PIN  4
-// programming select - D5
+// greyscale clock - D2
+#define DDR_GSCLK  DDRD
+#define PORT_GSCLK PORTD
+#define GSCLK_PIN  2
+// serial clock - D4
+#define DDR_SCLK  DDRD
+#define PORT_SCLK PORTD
+#define SCLK_PIN  4
+// dc programming select - unused (pulled up)
+//#define DDR_DCPRG  DDRB
+//#define PORT_DCPRG PORTB
+//#define DCPRG_PIN  1
+// programming select - B3/D1
 #define DDR_VPRG  DDRD
 #define PORT_VPRG PORTD
-#define VPRG_PIN  5
-// latch - B2 - B1
-#define DDR_XLAT  DDRB
-#define PORT_XLAT PORTB
-#define XLAT_PIN  2
-// blank outputs - B1 - B2
-#define DDR_BLANK  DDRB
-#define PORT_BLANK PORTB
-#define BLANK_PIN  1
-// serial data master out slave in - B3
-#define DDR_MOSI  DDRB
-#define PORT_MOSI PORTB
-#define MOSI_PIN  3
+#define VPRG_PIN  1
+// latch - D3
+#define DDR_XLAT  DDRD
+#define PORT_XLAT PORTD
+#define XLAT_PIN  3
+// blank outputs - B2/D0/C6
+#define DDR_BLANK  DDRC
+#define PORT_BLANK PORTC
+#define BLANK_PIN  6
+// serial data master out slave in - D7
+#define DDR_MOSI  DDRD
+#define PORT_MOSI PORTD
+#define MOSI_PIN  7
 
-#define TLC5940_N 1
+#define TLC5940_N 2
 #define LED_N 16 * TLC5940_N
 
 

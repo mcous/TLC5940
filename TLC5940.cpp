@@ -12,8 +12,8 @@ TLC5940::TLC5940(void) {
     DDR_SCLK |= (1 << SCLK_PIN);
     PORT_SCLK &= ~(1 << SCLK_PIN);
     // dcprg
-    DDR_DCPRG |= (1 << DCPRG_PIN);
-    PORT_DCPRG &= ~(1 << DCPRG_PIN);
+    //DDR_DCPRG |= (1 << DCPRG_PIN);
+    //PORT_DCPRG &= ~(1 << DCPRG_PIN);
     // vprg
     DDR_VPRG |= (1 << VPRG_PIN);
     PORT_VPRG |= (1 << VPRG_PIN);
@@ -40,7 +40,7 @@ TLC5940::TLC5940(void) {
 // initialize the dot correction
 void TLC5940::init(void) {
     // set dcprg to 1 (don't use eeprom data)
-    PORT_DCPRG |= (1 << DCPRG_PIN);
+    //PORT_DCPRG |= (1 << DCPRG_PIN);
     // set vprg to 1 (program dc data)
     PORT_VPRG |= (1 << VPRG_PIN);
     // set serial data to high (setting dc to 1)
