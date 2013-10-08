@@ -5,38 +5,79 @@
 // headers necessary for this file
 #include <avr/io.h>
 
-// communication pins - set appropriately
-// greyscale clock - D2
-#define DDR_GSCLK  DDRD
-#define PORT_GSCLK PORTD
-#define GSCLK_PIN  2
+/*
+// communication pins - define in makefile or set appropriately
+// greyscale clock
+#ifndef TLC5940_GS_PORT
+#define TLC5940_GS_PORT PORTD
+#endif
+#ifndef TLC5940_GS_PIN
+#define TLC5940_GS_PIN 2
+#endif
 // serial clock - D4
-#define DDR_SCLK  DDRD
-#define PORT_SCLK PORTD
-#define SCLK_PIN  4
-// dc programming select - unused (pulled up)
-//#define DDR_DCPRG  DDRB
-//#define PORT_DCPRG PORTB
-//#define DCPRG_PIN  1
-// programming select - B3/D1
-#define DDR_VPRG  DDRD
-#define PORT_VPRG PORTD
-#define VPRG_PIN  1
+#ifndef TLC5940_SCK_PORT
+#define TLC5940_SCK_PORT PORTD
+#endif
+#ifndef TLC5940_SCK_PIN
+#define TLC5940_SCK_PIN 4
+#endif
 // latch - D3
-#define DDR_XLAT  DDRD
-#define PORT_XLAT PORTD
-#define XLAT_PIN  3
-// blank outputs - B2/D0/C6
-#define DDR_BLANK  DDRC
-#define PORT_BLANK PORTC
-#define BLANK_PIN  6
+#ifndef TLC5940_XLAT_PORT
+#define TLC5940_XLAT_PORT PORTD
+#endif
+#ifndef TLC5940_XLAT_PIN
+#define TLC5940_XLAT_PIN 3
+#endif
+// programming select - D1
+#ifndef TLC5940_VPRG_PORT
+#define TLC5940_VPRG_PORT PORTD
+#endif
+#ifndef TLC5940_VPRG_PIN
+#define TLC5940_VPRG_PIN  1
+#endif
+// blank outputs - C6
+#ifndef TLC5940_BLANK_PORT
+#define TLC5940_BLANK_PORT PORTC
+#endif
+#ifndef TLC5940_BLANK_PIN
+#define TLC5940_BLANK_PIN 6
+#endif
 // serial data master out slave in - D7
-#define DDR_MOSI  DDRD
-#define PORT_MOSI PORTD
-#define MOSI_PIN  7
+#ifndef TLC5940_MOSI_PORT
+#define TLC5940_MOSI_PORT PORTD
+#endif
+#ifndef TLC5940_MOSI_PIN
+#define TLC5940_MOSI_PIN 7
+#endif
+*/
 
-#define TLC5940_N 2
-#define LED_N 16 * TLC5940_N
+// pin defines
+// greyscale clock - D2
+#define TLC5940_GS_PORT PORTD
+#define TLC5940_GS_PIN 2
+// serial clock - D5
+#define TLC5940_SCK_PORT PORTD
+#define TLC5940_SCK_PIN 5
+// latch - D4
+#define TLC5940_XLAT_PORT PORTD
+#define TLC5940_XLAT_PIN 4
+// programming select - D7
+#define TLC5940_VPRG_PORT PORTD
+#define TLC5940_VPRG_PIN  7
+// blank outputs - D3
+#define TLC5940_BLANK_PORT PORTD
+#define TLC5940_BLANK_PIN 3
+// serial data master out slave in - D6
+#define TLC5940_MOSI_PORT PORTD
+#define TLC5940_MOSI_PIN 6
+// number of drivers
+#define TLC5940_N 1
+
+#ifndef TLC5940_N
+#define TLC5940_N 3
+#endif
+
+#define TLC5940_LED_N 16 * TLC5940_N
 
 
 class TLC5940 {
@@ -54,9 +95,9 @@ public:
 
 private:
     // dc array
-    uint8_t dc[LED_N];
+    uint8_t dc[TLC5940_LED_N];
     // gs array
-    uint16_t gs[LED_N];
+    uint16_t gs[TLC5940_LED_N];
     // gs first cycle flag
     bool gsFirstCycle;
 };
