@@ -94,22 +94,16 @@ public:
     void refreshGS(void);
     // serial data function - returns if a latch is needed or not
     bool serialCycle(void);
+    // set the new data flag after new data input is done
+    void update(void);
 
 private:
     // dc array
     uint8_t dc[TLC5940_LED_N];
     // gs array
     uint16_t gs[TLC5940_LED_N];
-    // gs first cycle flag
-    //volatile bool gsFirstCycle;
-    // gs data latch needed flag
-    //volatile bool needLatch;
     // new gs data flag
     volatile bool newData;
-    // gs counter
-    //volatile uint16_t gsCount;
-    // data counter
-    //volatile uint16_t dataCount;
 };
 
 #endif

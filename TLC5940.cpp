@@ -113,6 +113,7 @@ void TLC5940::refreshGS(void) {
 bool TLC5940::serialCycle(void) {
   // if there's data to clock in
   if (newData) {
+    newData = false;
     for (uint16_t dataCount=0; dataCount<192*TLC5940_N; dataCount++) {
       // get the bit the tlc5940 is expecting from the gs array (tlc expects msb first)
       uint16_t data = (gs[((192 * TLC5940_N) - 1 - dataCount)/12]) & (1 << ((192 * TLC5940_N) - 1 - dataCount)%12);
@@ -132,7 +133,10 @@ bool TLC5940::serialCycle(void) {
   return false;
 }
 
-
+// set the new data flag
+void TLC5940::update(void) {
+  newData = true;
+}
 
 // set the brightness of an individual led
 void TLC5940::setDC(uint8_t led, uint8_t val) {
@@ -161,6 +165,5 @@ void TLC5940::setGS(uint8_t led, uint16_t val) {
     else {
       gs[led] = 4095;
     }
-    newData = true;
   }
 }

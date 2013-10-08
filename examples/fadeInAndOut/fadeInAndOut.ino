@@ -2,6 +2,7 @@
 
 #include "TLC5940.h"
 #include "avr/interrupt.h"
+#include "avr/delay.h"
 
 // tlc object
 TLC5940 tlc;
@@ -25,6 +26,7 @@ void setup(void) {
   tlc.init();
 
   cli();
+
   // user timer 1 to toggle the gs clock pin
   TCCR1A = 0;
   TCCR1B = 0;
@@ -34,14 +36,11 @@ void setup(void) {
   TCCR1A |= (1 << COM1A0);
   // set the top of the timer
   // PS = 1, F_CPU = 16 MHz, F_OC = F_CPU/(2 * PS * (OCR1A+1)
-  // OCR1A = 0 -> f=F_CPU/2 = 8000000
   // gs edge gets sent every 32*2=64 clock ticks
   OCR1A = 31;
   // put the timer in CTC mode and start timer with no prescaler
   TCCR1B |= ( (1 << WGM12) | (1 << CS10) );
-  // enable interrupt on output compare A match
-  //TIMSK1 |= (1 << OCIE1A);
-  
+
   // set up an isr for the serial cycle to live in
   // let it live in timer 0
   TCCR0A = 0;
@@ -57,16 +56,18 @@ void setup(void) {
   // enable the interrupt of output compare A match
   TIMSK0 |= (1 << OCIE0A);
 
-
   sei();
 }
 
 void loop(void) {
-  Serial.println("loop");
+  //Serial.println("loop");
 
+  // give it some new data
   for (uint8_t i=0; i<TLC5940_LED_N; i++) {
     tlc.setGS(i, count);
   }
+  // tell the driver to update
+  tlc.update();
 
   // set loop direction
   if (dir==1 && count>=4000) {
@@ -79,20 +80,11 @@ void loop(void) {
   count += dir*100;
 
   // delay
-  //_delay_ms(100);
-  //delay(100);
+  _delay_ms(50);
 }
-
 
 // ISR for serial data input into TLC5940
 // run in non-blocking mode so that the greyscale cycle continues regardless of serial data being clocked in
 ISR(TIMER0_COMPA_vect) {
   tlc.refreshGS();
 }
-
-/*
-// ISR for greyscale clock on TLC5940
-ISR(TIMER1_COMPA_vect) {
-  tlc.refreshGS();
-}
-*/
