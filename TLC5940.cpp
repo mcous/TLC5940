@@ -6,9 +6,20 @@
 // DDR from PORT macro
 #define DDR(port) (*(&port-1))
 
-// initilize pin modes and values in constructor
+// give the variables some default values
 TLC5940::TLC5940(void) {
+  // initialize variables at all leds off for safety and dot correction to full brightness
+  for (uint8_t i=0; i<(16 * TLC5940_N); i++) {
+    setDC(i, 63);
+  }
+  for (uint8_t i=0; i<(16 * TLC5940_N); i++) {
+    setGS(i, 0);
+  }
+  gsFirstCycle = false;
+}
 
+// initialize the pins and set dot correction
+void TLC5940::init(void) {
   // initialize pins
   // gsclk - output set low initially
   DDR(TLC5940_GS_PORT) |= (1 << TLC5940_GS_PIN);
@@ -28,55 +39,16 @@ TLC5940::TLC5940(void) {
   // programming select - output set high
   DDR(TLC5940_VPRG_PORT) |= (1 << TLC5940_VPRG_PIN);
   TLC5940_VPRG_PORT |= (1 << TLC5940_VPRG_PIN);
-    
-  /*  
-    // set control pins to outputs and initial values
-    // gsclk
-    DDR_GSCLK |= (1 << GSCLK_PIN);
-    TLC5940_GS_PORT &= ~(1 << GSCLK_PIN);
-    // sclk
-    DDR_SCLK |= (1 << SCLK_PIN);
-    TLC5940_SCK_PORT &= ~(1 << SCLK_PIN);
-    // vprg
-    DDR_VPRG |= (1 << VPRG_PIN);
-    TLC5940_VPRG_PORT |= (1 << VPRG_PIN);
-    // xlat
-    DDR_XLAT |= (1 << XLAT_PIN);
-    TLC5940_XLAT_PORT &= ~(1 << XLAT_PIN);
-    // blank
-    DDR_BLANK |= (1 << BLANK_PIN);
-    TLC5940_BLANK_PORT |= (1 << BLANK_PIN);
-    // serial data master out slave in
-    DDR_MOSI |= (1 << MOSI_PIN);
-    TLC5940_MOSI_PORT &= ~(1 << MOSI_PIN);
-  */
 
-  // initialize variables at all leds off for safety
-  for (uint8_t i=0; i<(16 * TLC5940_N); i++) {
-      setDC(i, 0);
-  }
-  for (uint8_t i=0; i<(16 * TLC5940_N); i++) {
-      setGS(i, 0);
-  }
-  gsFirstCycle = false;
-}
-
-// initialize the dot correction
-void TLC5940::init(void) {
-  Serial.println("TLC5940 initialization started");
   // set vprg to 1 (program dc data)
   TLC5940_VPRG_PORT |= (1 << TLC5940_VPRG_PIN);
   // set serial data to high (setting dc to 1)
   TLC5940_MOSI_PORT |= (1 << TLC5940_MOSI_PIN);
 
-  Serial.print("Writing dc data for "); Serial.print(96*TLC5940_N); Serial.println("bits");
-
-  // pulse the serial clock 96 times to write in dc data
+  // pulse the serial clock (96 * number-of-drivers) times to write in dc data
   for (uint8_t i=0; i<(96 * TLC5940_N); i++) {
-    //Serial.print("Writing dc bit: "); Serial.println(i);
     // get the bit the tlc5940 is expecting from the gs array (tlc expects msb first)
     uint8_t data = (dc[((96 * TLC5940_N) - 1 - i)/6]) & (1 << ((96 * TLC5940_N) - 1 - i)%6);
-    //Serial.print("dc bit =: "); Serial.println(data);
     // set mosi if bit is high, clear if bit is low
     if (data) {
       TLC5940_MOSI_PORT |= (1 << TLC5940_MOSI_PIN);
@@ -88,7 +60,6 @@ void TLC5940::init(void) {
     TLC5940_SCK_PORT &= ~(1 << TLC5940_SCK_PIN);
   }
 
-  Serial.println("Latching dc data");
   // pulse xlat to latch the data
   TLC5940_XLAT_PORT |= (1 << TLC5940_XLAT_PIN);
   TLC5940_XLAT_PORT &= ~(1 << TLC5940_XLAT_PIN);
