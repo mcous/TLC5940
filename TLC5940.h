@@ -5,14 +5,14 @@
 // headers necessary for this file
 #include <avr/io.h>
 
-/*
+
 // communication pins - define in makefile or set appropriately
 // greyscale clock
 #ifndef TLC5940_GS_PORT
-#define TLC5940_GS_PORT PORTD
+#define TLC5940_GS_PORT PORTB
 #endif
 #ifndef TLC5940_GS_PIN
-#define TLC5940_GS_PIN 2
+#define TLC5940_GS_PIN 6
 #endif
 // serial clock - D4
 #ifndef TLC5940_SCK_PORT
@@ -49,8 +49,8 @@
 #ifndef TLC5940_MOSI_PIN
 #define TLC5940_MOSI_PIN 7
 #endif
-*/
 
+/*
 // pin defines
 // greyscale clock - B1
 #define TLC5940_GS_PORT PORTB
@@ -70,11 +70,13 @@
 // serial data master out slave in - D6
 #define TLC5940_MOSI_PORT PORTD
 #define TLC5940_MOSI_PIN 6
+*/
+
 // number of drivers
-#define TLC5940_N 1
+//#define TLC5940_N 1
 
 #ifndef TLC5940_N
-#define TLC5940_N 3
+#define TLC5940_N 2
 #endif
 
 #define TLC5940_LED_N 16 * TLC5940_N

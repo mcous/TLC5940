@@ -33,11 +33,11 @@ void setup(void) {
   TCCR1C = 0;
   TIMSK1 = 0;
   // toggle OC1A (pin B1) on compare match event
-  TCCR1A |= (1 << COM1A0);
+  TCCR1A |= (1 << COM1B0);
   // set the top of the timer
   // PS = 1, F_CPU = 16 MHz, F_OC = F_CPU/(2 * PS * (OCR1A+1)
-  // gs edge gets sent every 32*2=64 clock ticks
-  OCR1A = 31;
+  // gs edge gets sent every 1*2=2 clock ticks
+  OCR1A = 0;
   // put the timer in CTC mode and start timer with no prescaler
   TCCR1B |= ( (1 << WGM12) | (1 << CS10) );
 
@@ -49,8 +49,8 @@ void setup(void) {
   // set waveform generation bit to put the timer into CTC mode
   TCCR0A |= (1 << WGM01);
   // set the top of the timer - want this to happen every 4096 * gs clocks = every 8192 clock ticks
-  // set top to 255 for an interrupt every 256 * 1024 = 64 * 4096 clock ticks
-  OCR0A = 255;
+  // set top to 8 for an interrupt every 8 * 1024 = 2 * 4096 clock ticks
+  OCR0A = 7;
   // start the timer with a 1024 prescaler
   TCCR0B |= ( (1 << CS02) | (1 << CS00) );
   // enable the interrupt of output compare A match
@@ -60,7 +60,7 @@ void setup(void) {
 }
 
 void loop(void) {
-  //Serial.println("loop");
+  Serial.println("loop");
 
   // give it some new data
   for (uint8_t i=0; i<TLC5940_LED_N; i++) {
@@ -80,7 +80,7 @@ void loop(void) {
   count += dir*100;
 
   // delay
-  _delay_ms(50);
+  _delay_ms(10);
 }
 
 // ISR for serial data input into TLC5940
