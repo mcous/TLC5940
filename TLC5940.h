@@ -52,9 +52,9 @@
 */
 
 // pin defines
-// greyscale clock - D2
-#define TLC5940_GS_PORT PORTD
-#define TLC5940_GS_PIN 2
+// greyscale clock - B1
+#define TLC5940_GS_PORT PORTB
+#define TLC5940_GS_PIN 1
 // serial clock - D5
 #define TLC5940_SCK_PORT PORTD
 #define TLC5940_SCK_PIN 5
@@ -90,8 +90,10 @@ public:
     void setDC(uint8_t led, uint8_t val);
     // set the brightness of an led
     void setGS(uint8_t led, uint16_t val);
-    // gs refresh function (goes in main loop)
+    // gs refresh function (goes in ISR)
     void refreshGS(void);
+    // serial data function - returns if a latch is needed or not
+    bool serialCycle(void);
 
 private:
     // dc array
@@ -99,7 +101,15 @@ private:
     // gs array
     uint16_t gs[TLC5940_LED_N];
     // gs first cycle flag
-    bool gsFirstCycle;
+    //volatile bool gsFirstCycle;
+    // gs data latch needed flag
+    //volatile bool needLatch;
+    // new gs data flag
+    volatile bool newData;
+    // gs counter
+    //volatile uint16_t gsCount;
+    // data counter
+    //volatile uint16_t dataCount;
 };
 
 #endif
