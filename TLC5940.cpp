@@ -1,7 +1,6 @@
  // low level tlc5940 class for atmega microcontrollers
 
 #include "TLC5940.h"
-//#include "arduino.h"
 
 // DDR from PORT macro
 #define DDR(port) (*(&port-1))
@@ -15,11 +14,8 @@ TLC5940::TLC5940(void) {
   for (uint8_t i=0; i<(16 * TLC5940_N); i++) {
     setGS(i, 0);
   }
-  //gsFirstCycle = false;
-  //needLatch = false;
+
   newData = false;
-  //gsCount = 0;
-  //dataCount = 0;
 }
 
 // initialize the pins and set dot correction
@@ -50,7 +46,7 @@ void TLC5940::init(void) {
   TLC5940_MOSI_PORT |= (1 << TLC5940_MOSI_PIN);
 
   // pulse the serial clock (96 * number-of-drivers) times to write in dc data
-  for (uint8_t i=0; i<(96 * TLC5940_N); i++) {
+  for (uint16_t i=0; i<(96 * TLC5940_N); i++) {
     // get the bit the tlc5940 is expecting from the gs array (tlc expects msb first)
     uint8_t data = (dc[((96 * TLC5940_N) - 1 - i)/6]) & (1 << ((96 * TLC5940_N) - 1 - i)%6);
     // set mosi if bit is high, clear if bit is low
