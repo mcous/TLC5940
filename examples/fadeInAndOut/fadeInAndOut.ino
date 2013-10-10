@@ -1,5 +1,20 @@
 // example / testing script for TLC5940 library
+// https://github.com/mcous/TLC5940
+// copyright 2013 by michael cousins
+// released under the terms of the MIT license
+//
 // 16 MHz Arduino recommended
+// configured for Arduino Uno with:
+// DCPRG - N/A - N/A   - tied high
+// GSCLK - PB1 - pin 9
+// BLANK - PD3 - pin 3 - 10k pullup to VCC
+// XLAT  - PD4 - pin 4
+// SCLK  - PD5 - pin 5
+// SIN   - PD6 - pin 6
+// VPRG  - PD7 - pin 7
+//
+// change these pins in TLC5940.h
+// GSCLK must be plugged into a OC (PWM) output and a timer must be properly configured to toggle that OC
 
 #include "TLC5940.h"
 #include "avr/interrupt.h"
@@ -13,6 +28,9 @@ int8_t dir;
 
 void setup(void) {
   Serial.begin(9600);
+  Serial.println("send any character to begin");
+  while(!Serial.available());
+  Serial.read();
 
   count = 200;
   dir = 1;
@@ -34,7 +52,7 @@ void setup(void) {
   TCCR1C = 0;
   TIMSK1 = 0;
   // toggle OC1A (pin B1) on compare match event
-  TCCR1A |= (1 << COM1B0);
+  TCCR1A |= (1 << COM1A0);
   // set the top of the timer
   // PS = 1, F_CPU = 16 MHz, F_OC = F_CPU/(2 * PS * (OCR1A+1)
   // gs edge gets sent every 32*2=64 clock ticks
@@ -61,7 +79,7 @@ void setup(void) {
 }
 
 void loop(void) {
-  Serial.println("loop");
+  //Serial.println("loop");
 
   // give it some new data
   for (uint8_t i=0; i<TLC5940_LED_N; i++) {
@@ -81,7 +99,7 @@ void loop(void) {
   count += dir*100;
 
   // delay
-  _delay_ms(10);
+  _delay_ms(50);
 }
 
 // ISR for serial data input into TLC5940

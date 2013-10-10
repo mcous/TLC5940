@@ -6,76 +6,52 @@
 #include <avr/io.h>
 
 // communication pins - define in makefile (avrdude) or set appropriately (arduino)
-// greyscale clock
+// note: DCPRG is tied high on all drivers
+// greyscale clock - OCR1A on an ATMega328p is PB1
 #ifndef TLC5940_GS_PORT
 #define TLC5940_GS_PORT PORTB
 #endif
 #ifndef TLC5940_GS_PIN
-#define TLC5940_GS_PIN 6
+#define TLC5940_GS_PIN 1
 #endif
-// serial clock - D4
+// serial clock - PD5
 #ifndef TLC5940_SCK_PORT
 #define TLC5940_SCK_PORT PORTD
 #endif
 #ifndef TLC5940_SCK_PIN
-#define TLC5940_SCK_PIN 4
+#define TLC5940_SCK_PIN 5
 #endif
-// latch - D3
+// latch - PD4
 #ifndef TLC5940_XLAT_PORT
 #define TLC5940_XLAT_PORT PORTD
 #endif
 #ifndef TLC5940_XLAT_PIN
-#define TLC5940_XLAT_PIN 3
+#define TLC5940_XLAT_PIN 4
 #endif
-// programming select - D1
+// programming select - PD7
 #ifndef TLC5940_VPRG_PORT
 #define TLC5940_VPRG_PORT PORTD
 #endif
 #ifndef TLC5940_VPRG_PIN
-#define TLC5940_VPRG_PIN  1
+#define TLC5940_VPRG_PIN  7
 #endif
-// blank outputs - C6
+// blank outputs - pullup resistor + PD3
 #ifndef TLC5940_BLANK_PORT
-#define TLC5940_BLANK_PORT PORTC
+#define TLC5940_BLANK_PORT PORTD
 #endif
 #ifndef TLC5940_BLANK_PIN
-#define TLC5940_BLANK_PIN 6
+#define TLC5940_BLANK_PIN 3
 #endif
-// serial data master out slave in - D7
+// serial data master out slave in - PD6
 #ifndef TLC5940_MOSI_PORT
 #define TLC5940_MOSI_PORT PORTD
 #endif
 #ifndef TLC5940_MOSI_PIN
-#define TLC5940_MOSI_PIN 7
+#define TLC5940_MOSI_PIN 6
 #endif
 
-/*
-// pin defines
-// greyscale clock - B1
-#define TLC5940_GS_PORT PORTB
-#define TLC5940_GS_PIN 1
-// serial clock - D5
-#define TLC5940_SCK_PORT PORTD
-#define TLC5940_SCK_PIN 5
-// latch - D4
-#define TLC5940_XLAT_PORT PORTD
-#define TLC5940_XLAT_PIN 4
-// programming select - D7
-#define TLC5940_VPRG_PORT PORTD
-#define TLC5940_VPRG_PIN  7
-// blank outputs - D3
-#define TLC5940_BLANK_PORT PORTD
-#define TLC5940_BLANK_PIN 3
-// serial data master out slave in - D6
-#define TLC5940_MOSI_PORT PORTD
-#define TLC5940_MOSI_PIN 6
-*/
-
-// number of drivers
-//#define TLC5940_N 1
-
 #ifndef TLC5940_N
-#define TLC5940_N 2
+#define TLC5940_N 3
 #endif
 
 #define TLC5940_LED_N 16 * TLC5940_N
