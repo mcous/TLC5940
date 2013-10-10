@@ -1,4 +1,7 @@
- // low level tlc5940 class for atmega microcontrollers
+// TLC5940 class for ATMega MCUs
+// https://github.com/mcous/TLC5940
+// copyright 2013 by michael cousins
+// released under the terms of the MIT license
 
 #include "TLC5940.h"
 

@@ -1,4 +1,8 @@
-// header file for tlc5940 class for atmega chips
+// header for TLC5940 class for ATMega MCUs
+// https://github.com/mcous/TLC5940
+// copyright 2013 by michael cousins
+// released under the terms of the MIT license
+
 #ifndef TLC5940_H
 #define TLC5940_H
 
@@ -63,14 +67,14 @@ public:
     TLC5940();
     // initilize the chip by filling the dc data
     void init(void);
-    // set dot correction
+    // set the dot correction array
     void setDC(uint8_t led, uint8_t val);
-    // set the brightness of an led
+    // set the brightness of an led in the array
     void setGS(uint8_t led, uint16_t val);
-    // gs refresh function (goes in ISR)
-    void refreshGS(void);
-    // set the new data flag after new data input is done
+    // tell the chip to clock in the data from the GS array
     void update(void);
+    // gs refresh function (lives in an ISR that fires ever 4096 greyscale clocks)
+    void refreshGS(void);
 
 private:
     // serial data function - returns if a latch is needed or not

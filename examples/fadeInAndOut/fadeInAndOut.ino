@@ -15,6 +15,8 @@
 //
 // change these pins in TLC5940.h
 // GSCLK must be plugged into a OC (PWM) output and a timer must be properly configured to toggle that OC
+//
+// serial ISR uses timer 0, which wipes out the Arduino delay() function; this sketch uses _delay_ms() from avr/delay.h instead
 
 #include "TLC5940.h"
 #include "avr/interrupt.h"
