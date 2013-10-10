@@ -8,3 +8,4 @@ init       KEYWORD2
 setDC      KEYWORD2
 setGS      KEYWORD2
 refreshGS  KEYWORD2
+update     KEYWORD2

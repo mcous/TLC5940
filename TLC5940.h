@@ -5,8 +5,7 @@
 // headers necessary for this file
 #include <avr/io.h>
 
-
-// communication pins - define in makefile or set appropriately
+// communication pins - define in makefile (avrdude) or set appropriately (arduino)
 // greyscale clock
 #ifndef TLC5940_GS_PORT
 #define TLC5940_GS_PORT PORTB
@@ -94,12 +93,12 @@ public:
     void setGS(uint8_t led, uint16_t val);
     // gs refresh function (goes in ISR)
     void refreshGS(void);
-    // serial data function - returns if a latch is needed or not
-    bool serialCycle(void);
     // set the new data flag after new data input is done
     void update(void);
 
 private:
+    // serial data function - returns if a latch is needed or not
+    bool serialCycle(void);
     // dc array
     uint8_t dc[TLC5940_LED_N];
     // gs array

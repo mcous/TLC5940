@@ -1,4 +1,5 @@
 // example / testing script for TLC5940 library
+// 16 MHz Arduino recommended
 
 #include "TLC5940.h"
 #include "avr/interrupt.h"
@@ -36,8 +37,8 @@ void setup(void) {
   TCCR1A |= (1 << COM1B0);
   // set the top of the timer
   // PS = 1, F_CPU = 16 MHz, F_OC = F_CPU/(2 * PS * (OCR1A+1)
-  // gs edge gets sent every 1*2=2 clock ticks
-  OCR1A = 0;
+  // gs edge gets sent every 32*2=64 clock ticks
+  OCR1A = 31;
   // put the timer in CTC mode and start timer with no prescaler
   TCCR1B |= ( (1 << WGM12) | (1 << CS10) );
 
@@ -49,8 +50,8 @@ void setup(void) {
   // set waveform generation bit to put the timer into CTC mode
   TCCR0A |= (1 << WGM01);
   // set the top of the timer - want this to happen every 4096 * gs clocks = every 8192 clock ticks
-  // set top to 8 for an interrupt every 8 * 1024 = 2 * 4096 clock ticks
-  OCR0A = 7;
+  // set top to 255 for an interrupt every 256 * 1024 = 64 * 4096 clock ticks
+  OCR0A = 255;
   // start the timer with a 1024 prescaler
   TCCR0B |= ( (1 << CS02) | (1 << CS00) );
   // enable the interrupt of output compare A match
