@@ -105,7 +105,6 @@ void loop(void) {
 }
 
 // ISR for serial data input into TLC5940
-// run in non-blocking mode so that the greyscale cycle continues regardless of serial data being clocked in
 ISR(TIMER0_COMPA_vect) {
   tlc.refreshGS();
 }
